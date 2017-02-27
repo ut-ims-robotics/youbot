@@ -1,0 +1,349 @@
+<?xml version="1.0"?>
+<robot name="temoto_vaultbot" 
+  xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- include files -->
+  <!--<xacro:include filename="$(find vaultbot_description)/urdf/base.urdf.xacro" />
+  <xacro:include filename="$(find vaultbot_description)/urdf/gazebo.urdf.xacro" /> -->
+  <xacro:include filename="$(find husky_description_nrg)/urdf/husky_fixed.urdf.xacro" />
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+  <!--<xacro:include filename="$(find robotiq_s_model_visualization)/cfg/s-model_articulated_macro.xacro" /> -->
+  <xacro:include filename="$(find robotiq_c2_model_visualization)/urdf/robotiq_c2_model_macro.xacro" />
+<!--   <xacro:include filename="$(find vaultbot_description)/urdf/sensors/asus_xtion_pro.urdf.xacro" /> -->
+  <xacro:include filename="$(find vaultbot_description)/urdf/sensors/sick_LMS291.urdf.xacro" />
+
+  <!-- properties -->
+  <xacro:property name="prefix_1" value="right_ur5_"/>
+  <xacro:property name="prefix_2" value="left_ur5_"/>
+  <xacro:property name="lidar" value="SICK_LMS291"/>
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="limited" value="true" />
+
+  <property name="bulkhead_mass" value="10" /> <!-- in kg-->
+
+  <xacro:arg name="laser_enabled" default="false" />
+  <xacro:arg name="ur5_enabled" default="false" />
+  <xacro:arg name="kinect_enabled" default="false" />
+
+  <xacro:husky_robot />
+
+  <!-- add floorplane -->
+  <link name="floorplane_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+          <box size="2.0 2.0 0.05"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+          <box size="2.0 2.0 0.05"/>
+      </geometry>
+      <material name="white"/>
+    </collision>
+  </link>
+
+  <joint name="floorplane_joint" type="fixed">
+    <parent link= "base_footprint" />
+    <child link = "floorplane_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- attach bulkhead -->
+  <link name="bulkhead_link">
+    <visual>
+      <origin xyz="0.415 -0.213 -0.785" rpy="${M_PI/2} 0 ${M_PI}" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/visual/bulkhead.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.42 -0.216 -0.785" rpy="${M_PI/2} 0 ${M_PI}" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/collision/bulkhead_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${bulkhead_mass}" />
+      <origin xyz="0.415 -0.213 -0.785" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+               iyy="0.01" iyz="0.0" izz="0.01" /> 
+    </inertial>
+  </link>
+  <!--<gazebo reference="bulkhead_link">
+    <material>Gazebo/Grey</material>
+    <turnGravityOff>false</turnGravityOff>
+    <selfCollide>true</selfCollide>
+  </gazebo> -->
+
+  <joint name="bulkhead_joint" type="fixed">
+    <origin xyz="0 0 0.854" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="bulkhead_link" />
+  </joint>
+
+  <!-- UR5 arms -->
+  <!-- attach right arm -->
+  <xacro:ur5_robot prefix="${prefix_1}" joint_limited="${limited}"/>
+
+  <joint name="${prefix_1}arm_attach_joint" type="fixed">
+    <parent link= "bulkhead_link" />
+    <child link = "${prefix_1}base_link" />
+    <origin xyz="0.115 -0.147 -0.50" rpy="0.0 ${M_PI/4} -${M_PI/2}" />
+  </joint>
+  
+	<!-- A tool link that will serve as the base end effector, instead of tool0. -->
+	<!-- The idea is that leap_motion_on_robot has a fixed joint to tool_end_effector and the orientation of tool_end_effector is always such that
+	      x is forward,  y is left, and z is up. -->
+	<link name="temoto_end_effector" />
+	<joint name="right_ur5-tool_end_effector" type="fixed" >
+	  <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0 0 ${M_PI/2}"/> <!--place temoto_end_effector at the very end of UR3 -->
+<!-- 	  <origin xyz="0 0 0.011" rpy="${-90*deg} ${-90*deg} ${-90*deg}"/> -->
+	  <parent link="${prefix_1}wrist_3_link" />	<!-- This link is the final physical link of UR3 -->
+	  <child link="temoto_end_effector" />
+	</joint>
+	
+	<!-- Leap Motion frame on the robot -->
+	<link name="leap_motion_on_robot" />
+	<joint name="temoto_end_effector-leap_motion_on_robot" type="fixed" >
+	  <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${-M_PI/2}" />
+	  <parent link="temoto_end_effector" />
+	  <child link="leap_motion_on_robot" />
+	</joint>
+
+  <!-- attach right eef link -->
+  <link name="${prefix_1}eef_frame_code" />
+  <joint name="${prefix_1}eef_frame_code_joint" type="fixed" >
+    <origin xyz="0 0 0" rpy="0.0 ${-M_PI/2} 0.0"/>
+    <parent link="${prefix_1}ee_link" />
+    <child link="${prefix_1}eef_frame_code" />
+  </joint>
+
+  <!-- attach right eef link -->
+  <link name="${prefix_1}eef_frame_interactive" />
+  <joint name="${prefix_1}eef_frame_interactive_joint" type="fixed" >
+    <origin xyz="0 0 0" rpy="0.0 ${-M_PI/2} 0.0"/>
+    <parent link="${prefix_1}ee_link" />
+    <child link="${prefix_1}eef_frame_interactive" />
+  </joint>
+
+  <!-- attach right camera mount link -->
+  <joint name="${prefix_1}f200_mount_attach_joint" type="fixed">
+    <parent link= "${prefix_1}ee_link" />
+    <child link = "${prefix_1}f200_mount_link" />
+    <origin xyz="-0.005 0.077 -0.039" rpy="0.0 0.0 -${M_PI/2}" /><!-- ${M_PI/2} -->
+  </joint>
+
+  <link name="${prefix_1}f200_mount_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/visual/f200_mount.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.05 0.05 0.05 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/collision/f200_mount.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="${prefix_1}f200_joint" type="fixed">
+    <parent link= "${prefix_1}f200_mount_link" />
+    <child link = "${prefix_1}f200_link" />
+    <origin xyz="0.08 0.04 -0.01" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <link name="${prefix_1}f200_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+          <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="${prefix_1}f200_surrogate_joint" type="fixed">
+    <parent link= "${prefix_1}ee_link" />
+    <child link = "${prefix_1}f200_surrogate" />
+    <origin xyz="0.035 0.0 -0.05" rpy="0.0 0.0 -${M_PI/2}" /><!-- ${M_PI/2} -->
+  </joint>
+
+  <link name="${prefix_1}f200_surrogate">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+	<box size="0.15 0.02 0.03"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+	<box size="0.15 0.025 0.03"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- attach right gripper link -->
+  <joint name="${prefix_1}2_finger_140_gripper_joint" type="fixed">
+    <parent link= "${prefix_1}f200_mount_link" />
+    <child link = "${prefix_1}2_finger_140_gripper_link" />
+    <origin xyz="-0.022 0.017 0.001" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <link name="${prefix_1}2_finger_140_gripper_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/visual/2_finger_140_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.05 0.05 0.05 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/collision/2_finger_140_gripper.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- attach right hand 
+  <xacro:s-model_articulated prefix="${prefix_1}"/>
+  <joint name="${prefix_1}hand_attach_joint" type="fixed">
+    <parent link= "${prefix_1}ee_link" />
+    <child link = "${prefix_1}palm" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 -${M_PI/4} -${M_PI/2}" />    
+  </joint> 
+
+  <xacro:robotiq_c2_model prefix="${prefix_1}"/>
+  <joint name="${prefix_1}hand_attach_joint" type="fixed">
+    <parent link= "${prefix_1}ee_link" />
+    <child link = "${prefix_1}robotiq_85_adapter_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />    
+  </joint>-->
+
+  <!-- attach left arm -->
+  <xacro:ur5_robot prefix="${prefix_2}" joint_limited="${limited}"/>
+
+  <!-- attach r200 camera -->
+  <joint name="${prefix_2}arm_attach_joint" type="fixed">
+    <parent link= "bulkhead_link" />
+    <child link = "${prefix_2}base_link" />
+    <origin xyz="0.115 0.147 -0.50" rpy="0.0 -${M_PI/4} -${M_PI/2}" />
+  </joint>
+
+  <joint name="${prefix_2}r200_mount_attach_joint" type="fixed">
+    <parent link= "${prefix_2}ee_link" />
+    <child link = "${prefix_2}r200_mount_link" />
+    <origin xyz="-0.005 0.037 -0.037" rpy="0.0 0.0 ${-M_PI/2}" />
+  </joint>
+
+  <link name="${prefix_2}r200_mount_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/visual/r200_mount.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.05 0.05 0.05 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/collision/r200_mount_collision.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="${prefix_2}r200_joint" type="fixed">
+    <parent link= "${prefix_2}r200_mount_link" />
+    <child link = "realsense_frame" />
+    <origin xyz="0.037 0.18 0.037" rpy="${M_PI} 0.0 ${M_PI/2}" />
+  </joint>
+
+  <link name="realsense_frame">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+          <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <!-- attach left eef link at camera -->
+  <link name="${prefix_2}eef_frame_code" />
+  <joint name="${prefix_2}eef_frame_code_joint" type="fixed" >
+    <origin xyz="0 0 0" rpy="0.0 ${-M_PI/2} 0.0"/>
+    <parent link="realsense_frame" />
+    <child link="${prefix_2}eef_frame_code" />
+  </joint>
+
+  <!-- attach left eef link at camera -->
+  <link name="${prefix_2}eef_frame_interactive" />
+  <joint name="${prefix_2}eef_frame_interactive_joint" type="fixed" >
+    <origin xyz="0 0 0" rpy="0.0 ${-M_PI/2} 0.0"/>
+    <parent link="realsense_frame" />
+    <child link="${prefix_2}eef_frame_interactive" />
+  </joint>
+
+  <!-- attach left hand 
+  <xacro:s-model_articulated prefix="${prefix_2}"/>
+
+  <joint name="${prefix_2}hand_attach_joint" type="fixed">
+    <parent link= "${prefix_2}ee_link" />
+    <child link = "${prefix_2}palm" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 -${M_PI/4} -${M_PI/2}" />    
+  </joint> -->
+
+  <!--<joint name="${prefix_2}asus_mount_attach_joint" type="fixed">
+    <parent link= "${prefix_2}ee_link" />
+    <child link = "${prefix_2}asus_mount_link" />
+    <origin xyz="0.0 -0.0335 -0.0335" rpy="${M_PI/2} 0.0 ${M_PI/2}" />
+  </joint>
+
+  <link name="${prefix_2}asus_mount_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/visual/wrist_mount.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <material name="white">
+      <color rgba="1 1 1 1"/>
+    </material>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+      <geometry>
+        <mesh filename="package://vaultbot_description/meshes/collision/wrist_mount.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+   ASUS 
+  <xacro:sensor_asus_xtion_pro parent="${prefix_2}asus_mount_link" />-->
+
+  <!-- LIDAR -->
+  <xacro:SICK_LMS291 lidar="${lidar}" laser_frame="laser_scan" />
+  <joint name="lidar_to_husky" type="fixed">
+    <parent link="bulkhead_link"/>
+    <child link="${lidar}_link"/>
+    <origin xyz="0.42 -0.072 -0.70" rpy="${M_PI/2} 0.0 -${M_PI/2}" />
+  </joint>
+
+</robot >

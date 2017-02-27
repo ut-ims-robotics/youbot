@@ -1,0 +1,3 @@
+<launch>
+  <rosparam command="load" file="$(find temoto)/config/frames.yaml" />
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+  <!-- Start SModelTcpNode.py that connects to robotiq gripper -->
+  <node name="robotiqSModel" pkg="robotiq_s_model_control" type="SModelTcpNode.py" args="192.168.1.12" />
+  
+  <!-- Start temoto robotiq node that is responsible for publishing appropriate messages -->
+  <node name="robotiq" pkg="temoto" type="robotiq" output="screen" />
+</launch>

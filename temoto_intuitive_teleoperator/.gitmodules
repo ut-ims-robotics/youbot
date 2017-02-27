@@ -1,0 +1,9 @@
+[submodule "pocketsphinx"]
+	path = pocketsphinx
+	url = https://github.com/mikeferguson/pocketsphinx.git
+[submodule "leap_motion_controller"]
+	path = leap_motion_controller
+	url = https://github.com/UTNuclearRoboticsPublic/leap_motion_controller.git
+[submodule "griffin_powermate"]
+	path = griffin_powermate
+	url = https://github.com/UTNuclearRoboticsPublic/griffin_powermate.git

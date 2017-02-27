@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+
+<!-- temoto setup for sia5 consists of:
+      1) sia5 robotic arm
+      2) force torque sensor
+      3) robotiq gripper
+      4) fixed joint between the previous components
+      -->
+
+<robot name="temoto_sia5" xmlns:xacro="http://ros.org/wiki/xacro">
+	<!-- MOTOMAN SIA5 from the ROS-I MOTOMAN SUPPORT package -->
+	<xacro:include filename="$(find motoman_sia5d_support)/urdf/sia5d_macro.xacro"/>
+	<xacro:motoman_sia5d prefix=""/>
+
+	<!-- A tool link that will serve as the base end effector, instead of tool0. -->
+	<!-- The idea is that leap_motion_on_robot has a fixed joint to temoto_end_effector and the orientation of temoto_end_effector is always such that
+	      x is forward,  y is left, and z is up. -->
+	<link name="temoto_end_effector" />
+	<joint name="sia5-temoto_end_effector" type="fixed" >
+	  <origin xyz="0 0 0.25" rpy="${-90*deg} ${-90*deg} ${-90*deg}"/> <!--25 cm forward from parent link, approximately between the fingers of the robotiq -->
+<!-- 	  <origin xyz="0 0 0.011" rpy="${-90*deg} ${-90*deg} ${-90*deg}"/> -->
+	  <parent link="link_t" />	<!-- This link is part of sia5d -->
+	  <child link="temoto_end_effector" />
+	</joint>
+	
+	<!-- Leap Motion frame on the robot -->
+	<link name="leap_motion_on_robot" />
+	<joint name="temoto_end_effector-leap_motion_on_robot" type="fixed" >
+	  <origin xyz="0 0 0" rpy="${90*deg} 0 ${-90*deg}" />
+	  <parent link="temoto_end_effector" />
+	  <child link="leap_motion_on_robot" />
+	</joint>	
+	
+	<!-- Force-torque sensor from my TEMOTO SUPPORT package -->
+	<link name="ft_sensor">
+	  <visual>
+	    <origin xyz="0 0 0" rpy="0 0 0" />
+	    <geometry>
+	      <mesh filename="package://temoto_support/meshes/vacuumft.stl" />
+	    </geometry>
+	    <material name="black">
+	      <color rgba="0 0 0 0.7"/>
+	    </material>
+	  </visual>
+	  <collision>
+	    <origin xyz="0 0 0" rpy="0 0 0" />
+	    <geometry>
+	      <mesh filename="package://temoto_support/meshes/vacuumft.stl" />
+	    </geometry>
+	    <material name="red">
+	      <color rgba="1 0 0 1"/>
+	    </material>
+	  </collision>
+	</link>
+	
+	<!-- Define a fixed joint between SIA5 and FT SENSOR -->
+	<joint name="sia5-ft_sensor" type="fixed">
+	  <origin xyz="0 0 0.087" rpy="${180*deg} ${-90*deg} 0"/>
+	  <parent link="link_t" />	<!-- This link is part of sia5d -->
+	  <child link="ft_sensor" />
+	</joint>
+
+	<!-- ROBOTIQ gripper from the ROS-I ROBOTIQ S MODEL VISUALIZATION package -->
+	<xacro:include filename="$(find robotiq_s_model_visualization)/cfg/s-model_articulated_macro.xacro" />
+	<xacro:s-model_articulated prefix="robotiq_"/>
+
+	<!-- Define a fixed joint between FT SENSOR and ROBOTIQ gripper -->
+	<!-- NOTE: In real life, Robotiq's large cylinder starts at 76 mm from the end of link_t -->
+	<joint name="ft_sensor-robotiq" type="fixed">
+	  <origin xyz="0.044 0 0" rpy=" 0 ${45*deg} ${-90*deg}"/>
+	  <parent link="ft_sensor" />
+	  <child link="robotiq_palm" />
+	</joint>
+
+	<!-- FLOOR THAT THE ROBOT IS PLACED ON -->
+	<link name="base_floor">
+	  <visual>
+	    <origin xyz="0 0 0" rpy="0 0 0" />
+	    <geometry>
+	      <box size="2.0 2.0 0.2"/>
+	    </geometry>
+	    <material name="White">
+	      <color rgba="1.0 1.0 1.0 1.0"/>
+	    </material>
+	  </visual>
+	  <collision>
+	    <origin xyz="0 0 0" rpy="0 0 0" />
+	    <geometry>
+	      <box size="2.0 2.0 0.2"/>
+	    </geometry>
+	  </collision>
+	</link>
+  
+	<joint name="base_floor-base_link" type="fixed" >
+	  <origin xyz="0 0 -0.1" rpy="0 0 0" />
+	  <parent link="base_link" /> <!-- This link is part of sia5d; notice how it is parent even though it is on top of the base_floor -->
+	  <child link="base_floor" />
+	</joint>
+	
+</robot>
+
+
+
+

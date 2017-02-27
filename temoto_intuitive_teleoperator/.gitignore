@@ -1,0 +1,9 @@
+build/
+devel/
+.kdev4/
+src.kdev4
+
+# Temp files
+*~
+
+

@@ -1,0 +1,14 @@
+controller_list:
+  - name: arm_1/arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - base_footprint_joint
+      - prismatic_link_to_revolute_link
+      - revolute_link_to_base_link
+      - arm_joint_1
+      - arm_joint_2
+      - arm_joint_3
+      - arm_joint_4
+      - arm_joint_5

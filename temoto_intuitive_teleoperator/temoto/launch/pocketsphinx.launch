@@ -1,0 +1,12 @@
+<launch>
+  <!-- Start pocketsphinx recognizer that is responsible for speech recognition -->
+  <node name="pocketsphinx_recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
+    <!-- Find the correct mic_name by running 'pactl list short sources' in Ubuntu command line -->
+    <param name="mic_name" value="alsa_input.pci-0000_00_1b.0.analog-stereo"/>
+    <param name="lm" value="$(find temoto_support)/pocketsphinx_kb/temoto_sphinx_kb.lm"/>
+    <param name="dict" value="$(find temoto_support)/pocketsphinx_kb/temoto_sphinx_kb.dic"/>
+  </node>
+  
+  <!-- Start soundplay_node that is responsible for voice synthesis -->
+  <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py" />
+</launch>

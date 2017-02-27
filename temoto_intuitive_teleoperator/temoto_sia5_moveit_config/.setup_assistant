@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: temoto_support
+    relative_path: urdf/temoto_sia5.xacro
+  SRDF:
+    relative_path: config/temoto_sia5.srdf
+  CONFIG:
+    generated_timestamp: 1461276370
