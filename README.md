@@ -104,15 +104,20 @@ Get the available packages used/developed by IMS_Robotics group by running the f
 ```bash
 cd ~/catkin_ws/src  # make sure it's the right catkin workspace location 
 git clone https://github.com/ut-ims-robotics/youbot.git # get packages source code. 
+```
+
+#### Compile the packages:
+```bash
 cd ~/catkin_ws      # go back to the catkin workspace 
 catkin_make         # compile the packages 
 ```
+
 This may take a while depending on the performance of the remote computer. When finished without error, do the following:
 
 ```bash
 source ~/catkin_ws/devel/setup.bash 
 ```
-In the future, when you develop new packages or use packages from other resources, do Step 3. 
+In the future, when you develop new packages or use packages from other resources, do **Compile the packages:** in Step 3. 
 
 \* For writing your own package, please check the tutorial ["How to create a ROS package"](http://wiki.ros.org/catkin/Tutorials/CreatingPackage).
 
