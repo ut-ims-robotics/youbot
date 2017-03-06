@@ -85,6 +85,18 @@ By now, youbot onboard computer and remote computer are both managed by ROS mast
 
 ### Step 3: Installing packages
 
+#### Pre-requists
+- Install [youbot-description](http://www.youbot-store.com/wiki/index.php?title=ROS_Wrapper&hmswSSOID=06b9430b85365cf0f83b50aae80e5d9820566adf) on **remote computer**:
+    ```bash
+    sudo apt-get install ros-indigo-youbot-description
+    ```
+
+- Install [Moveit!](http://moveit.ros.org/install/) on **remote computer**:
+    ```bash
+    sudo apt-get install ros-indigo-moveit
+    source /opt/ros/indigo/setup.bash
+    ```
+
 Due to the principle of ROS, packages are transparent to each other. This means (either on onboard computer or remote computer), regardless of the location of the packages, the packages communicate flawlessly under ROS. 
 The following commands can be run either on onboard computer or remote computer. Here we install on **remote computer** as an example. 
 
@@ -98,23 +110,12 @@ catkin_make         # compile the packages
 This may take a while depending on the performance of the remote computer. When finished without error, do the following:
 
 ```bash
-source ~/catkin_ws/dvel/setup.bash 
+source ~/catkin_ws/devel/setup.bash 
 ```
 In the future, when you develop new packages or use packages from other resources, do Step 3. 
 
 \* For writing your own package, please check the tutorial ["How to create a ROS package"](http://wiki.ros.org/catkin/Tutorials/CreatingPackage).
 
-#### Pre-requists
-- Install [youbot-description](http://www.youbot-store.com/wiki/index.php?title=ROS_Wrapper&hmswSSOID=06b9430b85365cf0f83b50aae80e5d9820566adf) on **remote computer**:
-    ```bash
-    sudo apt-get install ros-indigo-youbot-description
-    ```
-
-- Install [Moveit!](http://moveit.ros.org/install/) on **remote computer**:
-    ```bash
-    sudo apt-get install ros-indigo-moveit
-    source /opt/ros/indigo/setup.bash
-    ```
 
 ---
 ### Step 4: Running node with youbot
