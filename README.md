@@ -120,14 +120,9 @@ In the future, when you develop new packages or use packages from other resource
 ### Step 4: Running node with youbot
 The following uses running *youbot-manipulation* package as an example. For the usage of different packges, please refer to the REDAME on each package.
 
-Start ROS core **on youbot**:
-```bash
-roscore     # leave this terminal alive when you use ROS
-```
-
 Start *demo* node by running
 ```bash
-roslaunch youbot_moveit demo.launch
+roslaunch youbot_moveit demo.launch # note that roslaunch will start a roscore if there wasn't one.
 ```
 
 By default, this will open *rviz* (a visualization software), in which you could plan and visualize the movement of youbot arm.
