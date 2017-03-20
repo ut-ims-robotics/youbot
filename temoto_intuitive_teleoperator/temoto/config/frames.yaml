@@ -1,4 +1,0 @@
-temoto_frames:
-  human_input: "leap_motion"
-  end_effector: "temoto_end_effector"
-  mobile_base: "base_link"
