@@ -1,0 +1,7 @@
+#request fields
+float32 scanDuration
+---
+#response fields
+float32 respDuration
+uint32 tagID
+geometry_msgs/Pose tagPose

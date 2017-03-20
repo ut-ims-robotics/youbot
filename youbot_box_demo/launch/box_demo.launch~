@@ -1,0 +1,8 @@
+<launch>
+	<!--include file="$(find usb_cam)/launch/usb_cam-test.launch"/-->
+	<!--include file="$(find ar_track_alvar)/launch/C920_test.launch"/-->
+	
+	<node name="ar_tag_manipulations" pkg="ar_tag_manipulations" type="ar_tag_manipulations" output="screen"> </node>
+	<node name="youbot_box_demo" pkg="youbot_box_demo" type="youbot_box_demo" output="screen"> </node>
+</launch>
+
