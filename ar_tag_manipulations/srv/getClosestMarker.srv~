@@ -1,5 +1,0 @@
-#request fields
-float scanDuration
----
-#response fields
-uint32 an_integer
