@@ -1,7 +1,0 @@
-#request fields
-uint32 executionType
-bool joint1changed
-float64 joint1value
----
-#response fields
-uint32 executionTypeResp

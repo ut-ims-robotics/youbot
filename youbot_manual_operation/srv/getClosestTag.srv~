@@ -1,7 +1,0 @@
-#request fields
-float32 scanDuration
----
-#response fields
-float32 respDuration
-uint32 tagID
-Pose tagPose
