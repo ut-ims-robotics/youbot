@@ -1,0 +1,10 @@
+# youbot_simulator
+This package combines differet packages that allow to simulate navigation and manipulation with youbot.
+
+## Dependancies
+
+## Launch files
+
+## Maps 
+
+---
