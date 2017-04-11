@@ -1,6 +1,7 @@
 <launch>
 	<!-- run a map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find youbot_simulator)/map/testmap3.yaml"/>
+	<arg name="map" default="testmap3.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find youbot_simulator)/map/$(arg map)"/>
 
 	<!-- publish a TF between /map and /odom -->
 	<node name="static_transform_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map odom 10"/>

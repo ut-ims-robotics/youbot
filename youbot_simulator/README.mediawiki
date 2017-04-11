@@ -1,10 +1,38 @@
-== youbot_simulator ==
-This package combines differet packages that allow to simulate navigation and manipulation with youbot.
+''' youbot_simulator '''
 
-=== Dependancies ===
+This package combines different packages that allow simulating navigation and manipulation with youbot.
 
-=== Launch files ===
+''' TESTED and DEVELOPED ON INDIGO '''. Kinetic has brought in '''eval''' tags which make argument evaluation way more dynamic.
+----
+=== Default dependancies ===
+* '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
+* '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
+* '''youbot_description''': https://github.com/youbot/youbot_description
+* '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
+* '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
 
-=== Maps ===
+=== Preparations ===
+Since there is no LIDAR or RBG-D cam simulation, there is no localization. TF (map -> odom) is statically published, therefore odometry data is "perfectly accurate", its a sim.
 
+But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data. In order to do so, open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
+ observation_sources: base_scan
+
+=== Usage ===
+==== Navigation simulation (no MoveIt!) ====
+* Launch with default settings:
+ $ roslaunch youbot_simulator navigation.launch
+
+* Use a different URDF package:
+ $ roslaunch youbot_simulator navigation.launch robot_description_package:="$(find OTHER_URDF_PACKAGE)"
+
+==== Full simulation (navigation + MoveIt!) ====
+* Launch with default settings:
+ $ roslaunch youbot_simulator full_simulation.launch
+
+* Use a different MoveIt! config package
+ $ roslaunch youbot_simulator full_simulation.launch moveit_config_package:="$(find OTHER_MOVEIT_PACKAGE)"
+
+==== Maps ====
+Different maps can be used when launching arbitrary launch files:
+ $ roslaunch youbot_simulator FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
 ----
