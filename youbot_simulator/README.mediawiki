@@ -1,4 +1,5 @@
 ''' youbot_simulator '''
+
 This package combines differet packages that allow to simulate navigation and manipulation with youbot.
 
 === Dependancies ===
@@ -8,12 +9,26 @@ This package combines differet packages that allow to simulate navigation and ma
 * '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
 * '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
 
+=== Preparations ===
+Since there is no LIDAR or RBG-D cam simulation, there is no localization. TF (map -> odom) is statically published, therefore odometry data is "perfectly accurate", its a sim.
+
+But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data. for that open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
+ observation_sources: base_scan
+
 === Usage ===
-* Navigation simulation (no MoveIt!)
+==== Navigation simulation (no MoveIt!) ====
+* Launch with default settings:
  $ roslaunch youbot_simulator navigation.launch
 
-* Full simulation (navigation + MoveIt!)
- $ roslaunch youbot_simulator full_simulation.launch
-=== Maps ===
+* Use a different URDF source:
+ $ roslaunch youbot_simulator
 
+==== Full simulation (navigation + MoveIt!) ====
+* Launch with default settings:
+ $ roslaunch youbot_simulator full_simulation.launch
+
+ $ roslaunch youbot_simulator
+ 
+==== Maps ====
+Different maps can be used for navigation, 
 ----
