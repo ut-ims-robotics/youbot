@@ -3,7 +3,7 @@
 This package combines differet packages that allow to simulate navigation and manipulation with youbot.
 
 ''' TESTED and DEVELOPED ON INDIGO '''. Kinetic has brought in '''eval''' tags which make argument evaluation way more dynamic.
-
+----
 === Default dependancies ===
 * '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
 * '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
@@ -28,10 +28,10 @@ But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., 
 ==== Full simulation (navigation + MoveIt!) ====
 * Launch with default settings:
  $ roslaunch youbot_simulator full_simulation.launch
- 
+
 * Use a different MoveIt! config package
  $ roslaunch youbot_simulator full_simulation.launch moveit_config_package:="$(find OTHER_MOVEIT_PACKAGE)"
- 
+
 ==== Maps ====
 Different maps can be used when launching arbitrary launch files:
  $ roslaunch youbot_simulator FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
