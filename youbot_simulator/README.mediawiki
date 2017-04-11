@@ -33,6 +33,6 @@ But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., 
  $ roslaunch youbot_simulator full_simulation.launch moveit_config_package:="$(find OTHER_MOVEIT_PACKAGE)"
 
 ==== Maps ====
-Different maps can be used when launching arbitrary launch files:
+Different maps can be used when launching arbitrary launch files, just put the .pgm and .yaml file into the "map" folder:
  $ roslaunch youbot_simulator FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
 ----
