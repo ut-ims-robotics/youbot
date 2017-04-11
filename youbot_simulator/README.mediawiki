@@ -2,7 +2,7 @@
 
 This package combines different packages that allow simulating navigation and manipulation with youbot.
 
-''' TESTED and DEVELOPED ON INDIGO '''. Kinetic has brought in '''eval''' tags which make argument evaluation way more dynamic.
+''' TESTED and DEVELOPED ON INDIGO '''
 ----
 === Default dependancies ===
 Basically all packages can be replaced (described in '''Usage''' paragraph), but the default packages are the following:
