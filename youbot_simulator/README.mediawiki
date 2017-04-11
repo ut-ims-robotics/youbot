@@ -12,7 +12,7 @@ This package combines different packages that allow simulating navigation and ma
 * '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
 
 === Preparations ===
-Since there is no LIDAR or RBG-D cam simulation, there is no localization. TF (map -> odom) is statically published, therefore odometry data is "perfectly accurate", its a sim.
+Since there is no LIDAR or RBG-D cam simulation, there is no localization. TF (map -> odom) is statically published, therefore odometry data (published by fake_odom_publisher node) is "perfectly accurate", its a sim.
 
 But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data. In order to do so, open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
  observation_sources: base_scan
