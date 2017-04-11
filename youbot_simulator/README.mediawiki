@@ -1,6 +1,6 @@
 ''' youbot_simulator '''
 
-This package combines differet packages that allow to simulate navigation and manipulation with youbot.
+This package combines different packages that allow simulating navigation and manipulation with youbot.
 
 ''' TESTED and DEVELOPED ON INDIGO '''. Kinetic has brought in '''eval''' tags which make argument evaluation way more dynamic.
 ----
@@ -14,7 +14,7 @@ This package combines differet packages that allow to simulate navigation and ma
 === Preparations ===
 Since there is no LIDAR or RBG-D cam simulation, there is no localization. TF (map -> odom) is statically published, therefore odometry data is "perfectly accurate", its a sim.
 
-But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data. for that open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
+But move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data. In order to do so, open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
  observation_sources: base_scan
 
 === Usage ===
