@@ -1,10 +1,19 @@
-== youbot_simulator ==
+''' youbot_simulator '''
 This package combines differet packages that allow to simulate navigation and manipulation with youbot.
 
 === Dependancies ===
+* '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
+* '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
+* '''youbot_description''': https://github.com/youbot/youbot_description
+* '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
+* '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
 
-=== Launch files ===
+=== Usage ===
+* Navigation simulation (no MoveIt!)
+ $ roslaunch youbot_simulator navigation.launch
 
+* Full simulation (navigation + MoveIt!)
+ $ roslaunch youbot_simulator full_simulation.launch
 === Maps ===
 
 ----
