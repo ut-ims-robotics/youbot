@@ -34,6 +34,10 @@
   </node>
 
   <!-- start navigation simulation -->
-  <include file="$(find youbot_simulator)/launch/navigation_no_urdf.launch" />
+  <arg name="map" default="testmap3.yaml"/>
+
+  <include file="$(find youbot_simulator)/launch/navigation_no_urdf.launch">
+    <arg name="map" value="$(arg map)"/>
+  </include>
 	 
 </launch>
