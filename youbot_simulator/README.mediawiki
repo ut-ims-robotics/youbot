@@ -5,6 +5,8 @@ This package combines different packages that allow simulating navigation and ma
 ''' TESTED and DEVELOPED ON INDIGO '''. Kinetic has brought in '''eval''' tags which make argument evaluation way more dynamic.
 ----
 === Default dependancies ===
+Basically all packages can be replaced (described in '''Usage''' paragraph), but the default packages are the following:
+
 * '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
 * '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
 * '''youbot_description''': https://github.com/youbot/youbot_description
