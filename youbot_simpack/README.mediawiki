@@ -38,13 +38,13 @@ TODO
  $ roslaunch youbot_simpack navigation_gazebo.launch
 
 * Without gazebo: Launch with default settings:
- $ roslaunch youbot_simulator navigation_simple.launch
+ $ roslaunch youbot_simpack navigation_simple.launch
 
 ==== Full simulation (navigation + MoveIt!) ====
 * Without gazebo: Launch with default settings:
- $ roslaunch youbot_simulator full_simulation_simple.launch
+ $ roslaunch youbot_simpack full_simulation_simple.launch
 
 ==== Maps ====
 Different maps can be used when launching arbitrary launch files, just put the .pgm and .yaml file into the "map" folder and specify the name of the .yaml file when launching:
- $ roslaunch youbot_simulator FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
+ $ roslaunch youbot_simpack FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
 ----
