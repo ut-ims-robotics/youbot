@@ -19,6 +19,7 @@ Basically all packages can be replaced (described in '''Preparations''' paragrap
 
 * '''Required when using MoveIt!'''
 ** '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
+----
 
 === Preparations ===
 ==== Operating without localization ====
@@ -37,6 +38,7 @@ to
 
 ==== Default values for gazebo world ====
 TBA
+----
 
 === Usage ===
 ==== Navigation simulation (no MoveIt!) ====
