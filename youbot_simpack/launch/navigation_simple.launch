@@ -1,0 +1,33 @@
+<launch>
+  <arg name="load_robot_description" default="true"/>
+
+  <!-- The name of the parameter under which the URDF is loaded; Name of robot URDF package-->
+  <arg name="robot_description" default="robot_description"/>
+  <arg name="robot_description_package" default="$(find youbot_description)"/>
+
+  <!-- Setup the virtual robot-->
+  <include file="$(find youbot_simpack)/launch/setup_robot.launch">
+    <arg name="robot_description_package" value="$(arg robot_description_package)"/>
+    <arg name="robot_description" value="$(arg robot_description)"/>
+    <arg name="load_robot_description" value="true"/>
+    <arg name="use_jsp" value="true"/>
+    <arg name="use_gui_for_jsp" value="false"/>
+    <arg name="use_rsp" value="true"/>
+  </include>
+
+  <!-- Run RViz with navigation.rviz configuration -->
+  <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
+	args="-d $(find youbot_simpack)/launch/rviz/navigation_simple.rviz" output="screen">
+  </node>
+
+  <!-- start navigation simulation -->
+  <arg name="map" default="maze.yaml"/>
+
+  <include file="$(find youbot_simpack)/launch/setup_navigation.launch">
+    <arg name="run_map_server" value="true"/>
+    <arg name="map" value="$(arg map)"/>
+    <arg name="publish_fake_odom" value="true"/>
+    <arg name="publish_static_map_odom_tf" value="true"/>
+  </include>
+
+</launch>

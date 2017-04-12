@@ -1,0 +1,22 @@
+<launch>
+  <arg name="load_robot_description" default="false"/>
+  <arg name="use_jsp" default="false"/>
+  <arg name="use_gui_for_jsp" default="false"/>
+  <arg name="use_rsp" default="false"/>
+
+  <!-- The name of the parameter under which the URDF is loaded; Name of robot URDF package-->
+  <arg name="robot_description" default="robot_description"/>
+  <arg name="robot_description_package" default="$(find youbot_description)"/>
+
+  <!-- Load universal robot description format (URDF) -->
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="$(find xacro)/xacro.py '$(arg robot_description_package)/robots/youbot.urdf.xacro'"/>
+  
+  <!-- We do not have a robot connected, so publish fake joint states -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" if="$(arg use_jsp)">
+    <param name="/use_gui" value="$(arg use_gui_for_jsp)"/>
+  </node>
+
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" if="$(arg use_rsp)"/>
+
+</launch>

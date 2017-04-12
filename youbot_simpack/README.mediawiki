@@ -1,0 +1,50 @@
+''' youbot_simpack '''
+
+This package combines different packages that allow simulating (with and without gazebo) navigation and manipulation with youbot.
+
+''' TESTED ON INDIGO, GAZEBO2 '''
+----
+=== Default dependancies ===
+Basically all packages can be replaced (described in '''Preparations''' paragraph), but the default packages are the following:
+
+* '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
+* '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
+* '''youbot_description''': https://github.com/youbot/youbot_description
+* '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
+* '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
+* '''youbot_simulation''': https://github.com/mas-group/youbot_simulation
+
+=== Preparations ===
+==== Operating without localization ====
+If there is no LIDAR or RBG-D cam simulation, there is no localization. Move_base has to know, that it should not be expecting LIDAR, RBGD-D, etc., data.
+
+In order to do so, open ''' youbot_navigation/youbot_navigation_common/config/costmap_common_params.yaml''' file and remove or override this line: 
+ observation_sources: base_scan
+
+==== Using different URDF, moveit, etc., packages ====
+Kinetic is cool brought in "eval" tags, which allow to nest arguments like
+ $(find arg("argname"))
+but Indigo is not that cool. So in order to change the packages, you have to change them in the launch file. Just replace the default value and you're done. For example if you want to have a different URDF package when launching "navigation_simple.launch", change the
+ <arg name="robot_description_package" default="$(find youbot_description)"/>
+to
+ <arg name="robot_description_package" default="$(find YOUR_DESIRED_PACKAGE)"/>
+
+==== Default values for gazebo world ====
+TODO
+
+=== Usage ===
+==== Navigation simulation (no MoveIt!) ====
+* With gazebo: Launch with default settings:
+ $ roslaunch youbot_simpack navigation_gazebo.launch
+
+* Without gazebo: Launch with default settings:
+ $ roslaunch youbot_simulator navigation_simple.launch
+
+==== Full simulation (navigation + MoveIt!) ====
+* Without gazebo: Launch with default settings:
+ $ roslaunch youbot_simulator full_simulation_simple.launch
+
+==== Maps ====
+Different maps can be used when launching arbitrary launch files, just put the .pgm and .yaml file into the "map" folder and specify the name of the .yaml file when launching:
+ $ roslaunch youbot_simulator FILL_IN_THE_BLANKS.launch map:="OTHER_MAP.yaml"
+----
