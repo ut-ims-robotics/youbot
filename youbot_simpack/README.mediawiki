@@ -1,18 +1,24 @@
 ''' youbot_simpack '''
 
-This package combines different packages that allow simulating (with and without gazebo) navigation and manipulation with youbot.
+This package combines different packages that allow simulating (with and without gazebo) navigation (and manipulation) with youbot.
 
 ''' TESTED ON INDIGO, GAZEBO2 '''
 ----
 === Default dependancies ===
 Basically all packages can be replaced (described in '''Preparations''' paragraph), but the default packages are the following:
+* '''Required'''
+** '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
+** '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
+** '''youbot_description''': https://github.com/youbot/youbot_description
 
-* '''navigation''' via apt-get or git: https://github.com/ros-planning/navigation/tree/indigo-devel
-* '''youbot_navigation''' configuration package: https://github.com/youbot/youbot_navigation
-* '''youbot_description''': https://github.com/youbot/youbot_description
-* '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
-* '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
-* '''youbot_simulation''': https://github.com/mas-group/youbot_simulation
+* '''Required when not using gazebo'''
+** '''fake_odom_publiher''': https://github.com/ut-ims-robotics/fake_odom_publisher
+
+* '''Required when using qazebo'''
+** '''youbot_simulation''': https://github.com/mas-group/youbot_simulation
+
+* '''Required when using MoveIt!'''
+** '''youbot_moveit_config''': just have something if needed, [https://github.com/svenschneider/youbot-manipulation/tree/indigo/youbot_moveit this] is also an option
 
 === Preparations ===
 ==== Operating without localization ====
@@ -30,7 +36,7 @@ to
  <arg name="robot_description_package" default="$(find YOUR_DESIRED_PACKAGE)"/>
 
 ==== Default values for gazebo world ====
-TODO
+TBA
 
 === Usage ===
 ==== Navigation simulation (no MoveIt!) ====
