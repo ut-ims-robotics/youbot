@@ -22,7 +22,7 @@ In order to do so, open ''' youbot_navigation/youbot_navigation_common/config/co
  observation_sources: base_scan
 
 ==== Using different URDF, moveit, etc., packages ====
-Kinetic is cool brought in "eval" tags, which allow to nest arguments like
+Kinetic is cool and brought in "eval" tags, which allow to nest arguments like
  $(find arg("argname"))
 but Indigo is not that cool. So in order to change the packages, you have to change them in the launch file. Just replace the default value and you're done. For example if you want to have a different URDF package when launching "navigation_simple.launch", change the
  <arg name="robot_description_package" default="$(find youbot_description)"/>
