@@ -50,7 +50,7 @@ set(CMAKE_BUILD_TYPE Release)
 add_executable(heartbeat_generator src/HeartbeatGenerator.cpp)
 target_link_libraries(heartbeat_generator ${catkin_LIBRARIES} serial)
 
-#add
+#moe
 
 add_executable(youbot_network_estopper src/YoubotNetworkEstopper.cpp)
 target_link_libraries(youbot_network_estopper ${catkin_LIBRARIES} )

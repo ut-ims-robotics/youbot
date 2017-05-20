@@ -169,7 +169,7 @@ int main(int argc, char **argv)
       {
         ROS_ERROR("HEARTBEAT TIMED OUT, spewing stop commands");
         bad=true;
-	system("rosnode kill /youbot_driver"); 
+	system("rosnode kill youbot_driver.launch"); 
       }
     }
 
