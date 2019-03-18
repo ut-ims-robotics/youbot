@@ -1,0 +1,14 @@
+<package>
+  <name>youbot_navigation_global</name>
+  <description>Helper files for navigation of the KUKA youBot</description>
+  <author>Walter Nowak</author>
+  <maintainer email="x@x.de">x</maintainer>
+  <license>BSD</license>
+  <version>0.1.0</version>
+  <url>http://www.locomotec.com</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+ 
+</package>
+
+

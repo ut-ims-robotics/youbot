@@ -1,0 +1,20 @@
+<package>
+  <name>youbot_navigation_common</name>
+  <description>Helper classes for navigation of the KUKA youBot</description>
+  <author>Walter Nowak</author>
+  <maintainer email="x@x.de">x</maintainer>
+  <license>BSD</license>
+  <version>0.1.0</version>
+  <url>http://www.locomotec.com</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>hokuyo_node</run_depend>
+ 
+</package>
+
+

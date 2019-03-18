@@ -1,0 +1,19 @@
+<package>
+  <name>youbot_navigation_local</name>
+  <description>Local navigation for the KUKA youBot</description>
+  <author>Walter Nowak</author>
+  <maintainer email="x@x.de">x</maintainer>
+  <license>BSD</license>
+  <version>0.1.0</version>
+  <url>http://www.locomotec.com</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>move_base</build_depend>
+
+  <run_depend>roscpp</run_depend>
+ 
+</package>
+
+

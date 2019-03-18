@@ -5,3 +5,6 @@
 	path = youbot_description
 	url = https://github.com/youbot/youbot_description
 	branch = kinetic-devel
+[submodule "youbot_simulation"]
+	path = youbot_simulation
+	url = https://github.com/youbot/youbot_simulation
