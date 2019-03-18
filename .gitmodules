@@ -1,0 +1,7 @@
+[submodule "youbot_driver_ros_interface"]
+	path = youbot_driver_ros_interface
+	url = https://github.com/youbot/youbot_driver_ros_interface
+[submodule "youbot_description"]
+	path = youbot_description
+	url = https://github.com/youbot/youbot_description
+	branch = kinetic-devel
