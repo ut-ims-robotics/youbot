@@ -1,0 +1,7 @@
+<launch>
+<node pkg="youbot_manual_operation" type="youbot_trajectory_recorder" name="youbot_trajectory_recorder" output="screen" />
+
+ <node pkg="rosbag" type="rosbag" name="playHandover" output="screen" args="play -d 4 trajectoryHandover.bag /arm_1/arm_controller/follow_joint_trajectory/goal:=/arm_1/arm_controller/follow_joint_trajectory/goalBagHandover"/>
+
+
+</launch> 
