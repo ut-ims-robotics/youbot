@@ -26,7 +26,7 @@ Everything in this chapter will be done on the remote computer and all the comma
 The first step is to download all the needed packages.
 
 ```bash
-$ sudo apt-get install ros-kinetic-youbot-driver ros-kinetic-pr2-msgs ros-kinetic-brics-actuator ros-kinetic-moveit git ros-kinetic-ros-control ros-kinetic-ros-controllers ros-kinetic-gazebo-ros-control
+$ sudo apt-get install ros-kinetic-youbot-driver ros-kinetic-pr2-msgs ros-kinetic-brics-actuator ros-kinetic-moveit git ros-kinetic-ros-control ros-kinetic-ros-controllers ros-kinetic-gazebo-ros-control ros-kinetic-joy
 ```
 
 Next, you will need a catkin workspace. If you do not have it, use the following commands to create it.
