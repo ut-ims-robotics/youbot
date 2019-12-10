@@ -226,3 +226,28 @@ Now you can see the trajectory the arm will make when moving into the wanted pos
 To execute the planned trajectory, press `Execute`.
 
 **Note:** Every time you plan/execute the trajectory, make sure that "Select Start State" option is "current", in section "Query" under tab "Planning". Otherwise the robot will plan from previous starting state, which may end up with damaging movement.
+
+---
+
+## 6 Troubleshooting
+
+In general, on the *www.youbot-store.com* you can find a wiki with hardware and software troubleshooting: [youbot-store wiki](https://web.archive.org/web/20171016054730/http://www.youbot-store.com/wiki/index.php/Main_Page).
+
+### No EtherCAT connection... Excecute as root
+
+The following error message is caused by the `youbot_driver_ros_interface` binary in `catkin_ws/devel/lib/youbot_driver_ros_interface/` which doesn't have permissions to an ethernet device:
+
+``` 
+[ERROR] [1575985987.844141226]: No EtherCAT connection:
+[FATAL] [1575985987.844197919]: No socket connection on enx00e04c2151d2
+Excecute as root
+```
+
+See the original link: [www.youbot-store.com/wiki/index.php/Execute_as_a_root](http://www.youbot-store.com/wiki/index.php/Execute_as_a_root). Usually, it's down, so check via the [wayback machine](https://web.archive.org/web/20171015200047/http://www.youbot-store.com/wiki/index.php/Execute_as_a_root).
+
+In summary, to grant a binary permissions, run the following:
+
+```
+$ sudo setcap cap_net_raw+ep <path_to_your_program_executable>/<name_of_your_program_executable>
+$ sudo ldconfig <path_to_your_program_executable>
+```
